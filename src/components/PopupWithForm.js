@@ -20,9 +20,9 @@ function PopupWithForm(props) {
                     {props.children}
                     <button
                         type="submit"
-                        aria-label={`${props.save}`}
+                        aria-label='Сохранить'
                         className="popup__save-button popup-edit__save-button"
-                    >{props.save}</button>
+                    >Сохранить</button>
                 </form>
             </div>
         </section>
