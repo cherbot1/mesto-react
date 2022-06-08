@@ -65,7 +65,8 @@ function App() {
                 />
                 <span
                     id="name-input-error"
-                    className="name-input-error popup__input-error popup__input-error_hidden"/>
+                    className="name-input-error popup__input-error popup__input-error_hidden"
+                />
                 <input
                     type="text"
                     id="about-input"
