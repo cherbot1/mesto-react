@@ -1,5 +1,3 @@
-import React from 'react';
-
 class Api {
     constructor(config) {
         this._url = config.url;
@@ -7,7 +5,7 @@ class Api {
     }
 
     /* Обработка ответа */
-    _responseCheck(res) {
+    _checkResponse(res) {
         if (res.ok) {
             return res.json();
         } else {
@@ -20,7 +18,7 @@ class Api {
         return fetch(`https://${this._url}users/me`, {
             headers: this._headers
         })
-            .then(this._responseCheck)
+            .then(this._checkResponse)
     }
 
     /* Получение информации о карточках с сервера */
@@ -28,7 +26,7 @@ class Api {
         return fetch(`https://mesto.${this._url}cards`, {
             headers: this._headers
         })
-            .then(this._responseCheck);
+            .then(this._checkResponse);
     }
 
     /* Изменение информации о пользователе на сервере */
@@ -41,7 +39,7 @@ class Api {
                 about: data['about-input']
             })
         })
-            .then(this._responseCheck);
+            .then(this._checkResponse);
     }
 
     /* Добавление новой карточки на сервер*/
@@ -54,7 +52,7 @@ class Api {
                 link: data['url-input']
             })
         })
-            .then(this._responseCheck);
+            .then(this._checkResponse);
     }
 
     /* Удаление карточки с сервера */
@@ -63,7 +61,7 @@ class Api {
             method: 'DELETE',
             headers: this._headers,
         })
-            .then(this._responseCheck);
+            .then(this._checkResponse);
     }
 
     /* Добавляем лайк на сервер */
@@ -72,7 +70,7 @@ class Api {
             method: 'PUT',
             headers: this._headers,
         })
-            .then(this._responseCheck);
+            .then(this._checkResponse);
 
     }
 
@@ -82,7 +80,7 @@ class Api {
             method: 'DELETE',
             headers: this._headers,
         })
-            .then(this._responseCheck);
+            .then(this._checkResponse);
     }
 
     /* Меняем информацию об аватаре на сервере */
@@ -94,7 +92,7 @@ class Api {
                 avatar: data['avatar-url-input'],
             })
         })
-            .then(this._responseCheck);
+            .then(this._checkResponse);
     }
 }
 

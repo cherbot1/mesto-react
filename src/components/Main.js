@@ -12,10 +12,7 @@ function Main(props) {
     const [cards, setCards] = React.useState([]);
 
     React.useEffect(() => {
-        const cloudUserInfo = api.getUserInfo();
-        const cardsCloudInfo = api.getCardsInfo();
-
-        cloudUserInfo.then((data) => {
+        api.getUserInfo().then((data) => {
             setUserName(data.name);
             setUserDescription(data.about);
             setUserAvatar(data.avatar)
@@ -24,42 +21,69 @@ function Main(props) {
                 console.log(err);
             });
 
-        cardsCloudInfo.then((data) => {
+        api.getCardsInfo().then((data) => {
             setCards(data);
         })
             .catch((err) => {
                 console.log(err);
             });
 
-    })
+    }, [])
 
     return (
         <main className="content">
-
             <section className="profile">
                 <div className="profile__profile-info">
-                    <div className="profile__avatar-container" onClick={props.onEditAvatar}>
-                        <img className="profile__avatar" src={userAvatar} alt="Аватар"></img>
-                        <div className="profile__edit-background"></div>
-                        <img className="profile__avatar-edit" src={edit} alt="Изменить" title="Изменить аватар"></img>
+                    <div
+                        className="profile__avatar-container"
+                        onClick={props.onEditAvatar}
+                    >
+                        <img
+                            className="profile__avatar"
+                            src={userAvatar}
+                            alt="Аватар"
+                        />
+                        <div className="profile__edit-background"/>
+                        <img
+                            className="profile__avatar-edit"
+                            src={edit} alt="Изменить"
+                            title="Изменить аватар"
+                        />
                     </div>
                     <div className="profile__profile-info-text">
                         <div className="profile__name-with-edit-button">
                             <h1 className="profile__name">{userName}</h1>
-                            <button className="profile__edit-button" type="button" aria-label="Редактировать"
-                                    title="Редактировать" onClick={props.onEditProfile}>
-                                <img src={editButton} className="profile__edit-button-image" alt="Редактировать"></img>
+                            <button
+                                className="profile__edit-button"
+                                type="button"
+                                aria-label="Редактировать"
+                                title="Редактировать"
+                                onClick={props.onEditProfile}
+                            >
+                                <img
+                                    src={editButton}
+                                    className="profile__edit-button-image"
+                                    alt="Редактировать"
+                                />
                             </button>
                         </div>
                         <p className="profile__subtitle">{userDescription}</p>
                     </div>
-
                 </div>
-                <button className="profile__add-button" type="button" aria-label="Добавить фото" title="Добавить фото" onClick={props.onAddPlace}>
-                    <img className="profile__add-button-image" src={plusButton} alt="Добавить"></img>
+                <button
+                    className="profile__add-button"
+                    type="button"
+                    aria-label="Добавить фото"
+                    title="Добавить фото"
+                    onClick={props.onAddPlace}
+                >
+                    <img
+                        className="profile__add-button-image"
+                        src={plusButton}
+                        alt="Добавить"
+                    />
                 </button>
             </section>
-
             <section className="elements">
                 <ul className="elements__list">
                     {cards.map((card) => (
@@ -72,16 +96,18 @@ function Main(props) {
                     )}
                 </ul>
             </section>
-
             <section className="popup popup-confirm">
                 <form className="popup__form popup-confirm__form">
-                    <button className="popup__close popup-confirm__close" type="button" aria-label="Закрыть"
-                            title="Закрыть"></button>
+                    <button
+                        className="popup__close popup-confirm__close"
+                        type="button"
+                        aria-label="Закрыть"
+                        title="Закрыть"
+                    />
                     <h2 className="popup-confirm__title">Вы уверены?</h2>
                     <button className="popup-confirm__button popup__save-button">Да</button>
                 </form>
             </section>
-
         </main>
     );
 }
