@@ -35,8 +35,8 @@ class Api {
             method: 'PATCH',
             headers: this._headers,
             body: JSON.stringify({
-                name: data['name-input'],
-                about: data['about-input']
+                name: data.name,
+                about: data.about
             })
         })
             .then(this._checkResponse);
@@ -64,33 +64,23 @@ class Api {
             .then(this._checkResponse);
     }
 
-    /* Добавляем лайк на сервер */
-    addLike(id) {
-        return fetch(`https://mesto.${this._url}cards/${id}/likes`, {
-            method: 'PUT',
-            headers: this._headers,
-        })
-            .then(this._checkResponse);
-
-    }
-
-    /* Убираем лайк с сервера */
-    removeLike(id) {
-        return fetch(`https://mesto.${this._url}cards/${id}/likes`, {
-            method: 'DELETE',
-            headers: this._headers,
-        })
-            .then(this._checkResponse);
-    }
-
     /* Меняем информацию об аватаре на сервере */
     changeAvatar(data) {
         return fetch(`https://mesto.${this._url}users/me/avatar`, {
             method: 'PATCH',
             headers: this._headers,
             body: JSON.stringify({
-                avatar: data['avatar-url-input'],
+                avatar: data.avatar,
             })
+        })
+            .then(this._checkResponse);
+    }
+
+    /* Универсальный метод для постановки лайка */
+    changeLikeCardStatus(id, like){
+        return fetch(`https://mesto.${this._url}cards/${id}/likes`, {
+            method: like ? 'PUT' : 'DELETE',
+            headers: this._headers,
         })
             .then(this._checkResponse);
     }

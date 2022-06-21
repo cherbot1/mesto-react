@@ -4,23 +4,13 @@ import editButton from "../images/Edit_Button.svg";
 import plusButton from "../images/plus_button.svg";
 import {api} from "../utils/api";
 import Card from "./Card";
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 function Main(props) {
-    const [userName, setUserName] = React.useState('');
-    const [userDescription, setUserDescription] = React.useState('');
-    const [userAvatar, setUserAvatar] = React.useState('');
     const [cards, setCards] = React.useState([]);
+    const currentUser = React.useContext(CurrentUserContext);
 
     React.useEffect(() => {
-        api.getUserInfo().then((data) => {
-            setUserName(data.name);
-            setUserDescription(data.about);
-            setUserAvatar(data.avatar)
-        })
-            .catch((err) => {
-                console.log(err);
-            });
-
         api.getCardsInfo().then((data) => {
             setCards(data);
         })
@@ -28,7 +18,23 @@ function Main(props) {
                 console.log(err);
             });
 
-    }, [])
+    }, []);
+
+    function handleCardLike(card) {
+        const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+        api.changeLikeCardStatus(card._id, !isLiked)
+            .then((newCard) => {
+                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+            });
+    };
+
+    function handleCardDelete(id){
+        api.deleteCard(id)
+            .then(() => {
+                setCards((cards) => cards.filter((c) => c._id !== id));
+            })
+    };
 
     return (
         <main className="content">
@@ -40,7 +46,7 @@ function Main(props) {
                     >
                         <img
                             className="profile__avatar"
-                            src={userAvatar}
+                            src={currentUser.avatar}
                             alt="Аватар"
                         />
                         <div className="profile__edit-background"/>
@@ -52,7 +58,7 @@ function Main(props) {
                     </div>
                     <div className="profile__profile-info-text">
                         <div className="profile__name-with-edit-button">
-                            <h1 className="profile__name">{userName}</h1>
+                            <h1 className="profile__name">{currentUser.name}</h1>
                             <button
                                 className="profile__edit-button"
                                 type="button"
@@ -67,7 +73,7 @@ function Main(props) {
                                 />
                             </button>
                         </div>
-                        <p className="profile__subtitle">{userDescription}</p>
+                        <p className="profile__subtitle">{currentUser.about}</p>
                     </div>
                 </div>
                 <button
@@ -89,8 +95,11 @@ function Main(props) {
                     {cards.map((card) => (
                         <Card
                             cardInfo = {card}
+                            cardLikes = {card.likes}
                             key = {card._id}
                             onCardClick = {props.onCardClick}
+                            onCardLike = {handleCardLike}
+                            onCardDelete = {handleCardDelete}
                         />
                         )
                     )}
