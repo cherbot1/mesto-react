@@ -48,8 +48,8 @@ class Api {
             method: 'POST',
             headers: this._headers,
             body: JSON.stringify({
-                name: data['place-name-input'],
-                link: data['url-input']
+                name: data.name,
+                link: data.link
             })
         })
             .then(this._checkResponse);

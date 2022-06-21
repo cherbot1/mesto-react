@@ -2,12 +2,12 @@ import React from 'react';
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import {api} from "../utils/api";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 
 function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -15,6 +15,7 @@ function App() {
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
     const [selectedCard, setSelectedCard] = React.useState({});
     const [currentUser, setCurrentUser] = React.useState('');
+    const [cards, setCards] = React.useState([]);
 
     React.useEffect(() => {
         api.getUserInfo().then((data) => {
@@ -24,6 +25,32 @@ function App() {
                 console.log(err);
             });
     }, [])
+
+    React.useEffect(() => {
+        api.getCardsInfo().then((data) => {
+            setCards(data);
+        })
+            .catch((err) => {
+                console.log(err);
+            });
+
+    }, []);
+
+    function handleCardLike(card) {
+        const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+        api.changeLikeCardStatus(card._id, !isLiked)
+            .then((newCard) => {
+                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+            });
+    };
+
+    function handleCardDelete(id){
+        api.deleteCard(id)
+            .then(() => {
+                setCards((cards) => cards.filter((c) => c._id !== id));
+            })
+    };
 
     function handleCardClick(card) {
         setSelectedCard(card);
@@ -68,6 +95,16 @@ function App() {
             });
     }
 
+    function handleAddPlaceSubmit(data) {
+        api.addCard(data).then((newCard) => {
+            setCards([newCard, ...cards]);
+            closeAllPopups();
+        })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
     return (
        <CurrentUserContext.Provider value={currentUser}>
             <div className="App">
@@ -78,6 +115,9 @@ function App() {
                     onEditProfile = {handleEditProfileClick}
                     onAddPlace = {handleAddPlaceClick}
                     onCardClick = {handleCardClick}
+                    cards = {cards}
+                    onCardLike = {handleCardLike}
+                    onCardDelete = {handleCardDelete}
                 />
 
                 <Footer />
@@ -88,37 +128,11 @@ function App() {
                     onUpdateUser = {handleUpdateUser}
                 />
 
-                <PopupWithForm
-                    name = 'add'
-                    title = 'Новое место'
+                <AddPlacePopup
                     isOpen = {isAddPlacePopupOpen}
                     onClose = {closeAllPopups}
-                >
-                    <input
-                        type="text"
-                        id="place-name-input"
-                        className="popup__input popup-add__input popup-add__input_name"
-                        placeholder="Название"
-                        minLength="2"
-                        maxLength="30"
-                        required
-                    />
-                    <span
-                        id="place-name-input-error"
-                        className="place-name-input-error popup__input-error popup__input-error_hidden"
-                    />
-                    <input
-                        type="url"
-                        id='url-input'
-                        className="popup__input popup-add__input popup-add__input_link"
-                        placeholder="Ссылка на картинку"
-                        required
-                    />
-                    <span
-                        id='url-input-error'
-                        className="url-input-error popup__input-error popup__input-error_hidden"
-                    />
-                </PopupWithForm>
+                    onAddPlace = {handleAddPlaceSubmit}
+                />
 
                 <EditAvatarPopup
                     isOpen = {isEditAvatarPopupOpen}

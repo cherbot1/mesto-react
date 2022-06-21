@@ -2,39 +2,12 @@ import React from 'react';
 import edit from "../images/edit.png";
 import editButton from "../images/Edit_Button.svg";
 import plusButton from "../images/plus_button.svg";
-import {api} from "../utils/api";
 import Card from "./Card";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 function Main(props) {
-    const [cards, setCards] = React.useState([]);
+
     const currentUser = React.useContext(CurrentUserContext);
-
-    React.useEffect(() => {
-        api.getCardsInfo().then((data) => {
-            setCards(data);
-        })
-            .catch((err) => {
-                console.log(err);
-            });
-
-    }, []);
-
-    function handleCardLike(card) {
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
-
-        api.changeLikeCardStatus(card._id, !isLiked)
-            .then((newCard) => {
-                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-            });
-    };
-
-    function handleCardDelete(id){
-        api.deleteCard(id)
-            .then(() => {
-                setCards((cards) => cards.filter((c) => c._id !== id));
-            })
-    };
 
     return (
         <main className="content">
@@ -92,14 +65,14 @@ function Main(props) {
             </section>
             <section className="elements">
                 <ul className="elements__list">
-                    {cards.map((card) => (
+                    {props.cards.map((card) => (
                         <Card
                             cardInfo = {card}
                             cardLikes = {card.likes}
                             key = {card._id}
                             onCardClick = {props.onCardClick}
-                            onCardLike = {handleCardLike}
-                            onCardDelete = {handleCardDelete}
+                            onCardLike = {props.onCardLike}
+                            onCardDelete = {props.onCardDelete}
                         />
                         )
                     )}
