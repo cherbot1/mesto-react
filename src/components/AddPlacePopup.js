@@ -14,6 +14,7 @@ function AddPlacePopup(props) {
             link: linkRef.current.value
         });
 
+        /* Очищение инпутов после сабмита */
         nameRef.current.value = '';
         linkRef.current.value = '';
     }

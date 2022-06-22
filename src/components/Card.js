@@ -25,7 +25,7 @@ function Card(props) {
     }
 
     return (
-        <li className="element">
+        <div className="element">
             <button
                 type="button"
                 className={cardDeleteButtonClassName}
@@ -56,7 +56,7 @@ function Card(props) {
                     </div>
                 </figcaption>
             </figure>
-        </li>
+        </div>
     );
 }
 

@@ -66,14 +66,15 @@ function Main(props) {
             <section className="elements">
                 <ul className="elements__list">
                     {props.cards.map((card) => (
-                        <Card
-                            cardInfo = {card}
-                            cardLikes = {card.likes}
-                            key = {card._id}
-                            onCardClick = {props.onCardClick}
-                            onCardLike = {props.onCardLike}
-                            onCardDelete = {props.onCardDelete}
-                        />
+                        <li key = {card._id}>
+                            <Card
+                                cardInfo = {card}
+                                cardLikes = {card.likes}
+                                onCardClick = {props.onCardClick}
+                                onCardLike = {props.onCardLike}
+                                onCardDelete = {props.onCardDelete}
+                            />
+                        </li>
                         )
                     )}
                 </ul>

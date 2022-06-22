@@ -12,6 +12,7 @@ function EditAvatarPopup(props) {
             avatar: avatarRef.current.value
         });
 
+        /* Очищение инпута после сабмита */
         avatarRef.current.value = '';
     }
 
