@@ -1,27 +1,27 @@
 import React from 'react';
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
-function Card(props) {
+function Card({cardInfo, cardLikes, onCardClick, onCardLike, onCardDelete}) {
     const currentUser = React.useContext(CurrentUserContext);
-    const isOwn = props.cardInfo.owner._id === currentUser._id;
+    const isOwn = cardInfo.owner._id === currentUser._id;
     const cardDeleteButtonClassName = (
         `element__delete-button ${isOwn ? 'element__delete-button_visible' : 'element__delete-button_hidden'}`
     );
-    const isLiked = props.cardLikes.some(i => i._id === currentUser._id);
+    const isLiked = cardLikes.some(i => i._id === currentUser._id);
     const cardLikeButtonClassName = (
         `element__like-button ${isLiked ? 'element__like-button_active' : ''}`
     );
 
     function handleClick() {
-        props.onCardClick(props.cardInfo);
+        onCardClick(cardInfo);
     }
 
     function handleLikeClick () {
-        props.onCardLike(props.cardInfo);
+        onCardLike(cardInfo);
     }
 
     function handleDeleteClick() {
-        props.onCardDelete(props.cardInfo._id)
+        onCardDelete(cardInfo._id)
     }
 
     return (
@@ -37,13 +37,13 @@ function Card(props) {
                 <div className="element__image-wrapper">
                     <img
                         className="element__image"
-                        src={props.cardInfo.link}
-                        alt={props.cardInfo.name}
+                        src={cardInfo.link}
+                        alt={cardInfo.name}
                         onClick={handleClick}
                     />
                 </div>
                 <figcaption className="element__figcaption">
-                    <h2 className="element__figcaption-text">{props.cardInfo.name}</h2>
+                    <h2 className="element__figcaption-text">{cardInfo.name}</h2>
                     <div className="element__like-section">
                         <button
                             type="button"
@@ -52,7 +52,7 @@ function Card(props) {
                             title="Нравится"
                             onClick={handleLikeClick}
                         />
-                        <p className="element__like-counter">{props.cardInfo.likes.length}</p>
+                        <p className="element__like-counter">{cardInfo.likes.length}</p>
                     </div>
                 </figcaption>
             </figure>

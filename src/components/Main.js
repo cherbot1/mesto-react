@@ -5,7 +5,7 @@ import plusButton from "../images/plus_button.svg";
 import Card from "./Card";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
-function Main(props) {
+function Main({onEditAvatar, onEditProfile, onAddPlace, cards, onCardClick, onCardLike, onCardDelete}) {
 
     const currentUser = React.useContext(CurrentUserContext);
 
@@ -15,7 +15,7 @@ function Main(props) {
                 <div className="profile__profile-info">
                     <div
                         className="profile__avatar-container"
-                        onClick={props.onEditAvatar}
+                        onClick={onEditAvatar}
                     >
                         <img
                             className="profile__avatar"
@@ -37,7 +37,7 @@ function Main(props) {
                                 type="button"
                                 aria-label="Редактировать"
                                 title="Редактировать"
-                                onClick={props.onEditProfile}
+                                onClick={onEditProfile}
                             >
                                 <img
                                     src={editButton}
@@ -54,7 +54,7 @@ function Main(props) {
                     type="button"
                     aria-label="Добавить фото"
                     title="Добавить фото"
-                    onClick={props.onAddPlace}
+                    onClick={onAddPlace}
                 >
                     <img
                         className="profile__add-button-image"
@@ -65,14 +65,14 @@ function Main(props) {
             </section>
             <section className="elements">
                 <ul className="elements__list">
-                    {props.cards.map((card) => (
+                    {cards.map((card) => (
                         <li key = {card._id}>
                             <Card
                                 cardInfo = {card}
                                 cardLikes = {card.likes}
-                                onCardClick = {props.onCardClick}
-                                onCardLike = {props.onCardLike}
-                                onCardDelete = {props.onCardDelete}
+                                onCardClick = {onCardClick}
+                                onCardLike = {onCardLike}
+                                onCardDelete = {onCardDelete}
                             />
                         </li>
                         )
