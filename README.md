@@ -1,18 +1,18 @@
-# Getting Started with Create React App
+# Mesto-react
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A training project to study the React functionality on the Yandex.Practicum platform.
 
-## Available Scripts
+## Project description
 
-In the project directory, you can run:
+This project imitates app for sharing photos by different users. You can add and delete your own photos, like photos of other users. 
+Also, you can edit your profile, including avatar.
 
-### `npm start`
+## Technologies
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+* BEM
+* For layout used both flex and grid
+* React
+* JSX
 
 ### `npm test`
 
