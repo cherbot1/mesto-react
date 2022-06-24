@@ -13,6 +13,7 @@ function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+    const [isButtonLoading, setIsButtonLoading] = React.useState(false);
     const [selectedCard, setSelectedCard] = React.useState({});
     const [currentUser, setCurrentUser] = React.useState({});
     const [cards, setCards] = React.useState([]);
@@ -54,20 +55,27 @@ function App() {
             });
     };
 
+    function changeButtonState() {
+        setIsButtonLoading(true);
+    }
+
     function handleCardClick(card) {
         setSelectedCard(card);
     }
 
     function handleEditAvatarClick() {
         setIsEditAvatarPopupOpen(true);
+        setIsButtonLoading(false);
     }
 
     function handleEditProfileClick() {
         setIsEditProfilePopupOpen(true);
+        setIsButtonLoading(false);
     }
 
     function handleAddPlaceClick() {
         setIsAddPlacePopupOpen(true);
+        setIsButtonLoading(false);
     }
 
     function closeAllPopups() {
@@ -128,18 +136,22 @@ function App() {
                     isOpen = {isEditProfilePopupOpen}
                     onClose = {closeAllPopups}
                     onUpdateUser = {handleUpdateUser}
+                    changeButtonState = {changeButtonState}
                 />
 
                 <AddPlacePopup
                     isOpen = {isAddPlacePopupOpen}
                     onClose = {closeAllPopups}
                     onAddPlace = {handleAddPlaceSubmit}
+                    buttonState = {isButtonLoading}
+                    changeButtonState={changeButtonState}
                 />
 
                 <EditAvatarPopup
                     isOpen = {isEditAvatarPopupOpen}
                     onClose = {closeAllPopups}
                     onUpdateAvatar = {handleUpdateAvatar}
+                    onSubmitClick = {changeButtonState}
                 />
 
                 <ImagePopup

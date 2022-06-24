@@ -2,7 +2,7 @@ import React from 'react';
 import PopupWithForm from "./PopupWithForm";
 
 
-function AddPlacePopup({isOpen, onClose, onAddPlace}) {
+function AddPlacePopup({isOpen, onClose, onAddPlace, buttonState, changeButtonState}) {
     const nameRef = React.useRef();
     const linkRef = React.useRef();
 
@@ -26,6 +26,8 @@ function AddPlacePopup({isOpen, onClose, onAddPlace}) {
             isOpen = {isOpen}
             onClose = {onClose}
             onSubmit = {handleSubmit}
+            onSubmitChangeButton = {changeButtonState}
+            saveButtonState = {buttonState}
         >
             <input
                 type="text"
